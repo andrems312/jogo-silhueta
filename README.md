@@ -2,8 +2,7 @@
 
 Jogo de geografia em português: descubra o país pela silhueta, use uma dica ou escolha entre quatro alternativas. Cada rodada começa com três vidas.
 
-**Jogar:** https://SEU-USUARIO.github.io/jogo/
-Substitua `SEU-USUARIO` pelo seu nome de usuário do GitHub depois de publicar o repositório.
+**Jogar:** <https://leticia-americo.github.io/jogo-silhueta/>
 
 ## Rodar no computador
 
@@ -21,16 +20,16 @@ O servidor local é necessário porque o navegador pode bloquear o `fetch` do Ge
 
 ## Publicar no GitHub Pages
 
-1. Crie no GitHub um repositório **público** chamado `jogo`.
+1. Crie no GitHub um repositório **público** chamado `jogo-silhueta`.
 2. Conecte esta pasta ao repositório e envie a branch `main`:
 
    ```powershell
-   git remote add origin https://github.com/SEU-USUARIO/jogo.git
+   git remote add origin https://github.com/leticia-americo/jogo-silhueta.git
    git push -u origin main
    ```
 
 3. No GitHub, abra **Settings → Pages** e escolha **Deploy from a branch**, branch `main` e pasta `/(root)`.
-4. Aguarde a publicação. O endereço será `https://SEU-USUARIO.github.io/jogo/`.
+4. Aguarde a publicação em <https://leticia-americo.github.io/jogo-silhueta/>.
 
 ## Dados
 
