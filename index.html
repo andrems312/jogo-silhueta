@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102a35">
+  <meta name="description" content="Descubra países pelas suas silhuetas em um jogo de geografia em português.">
+  <title>Qual é esse país?</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="nomes-pt.js" defer></script>
+  <script src="dicas.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="ceu" aria-hidden="true">
+    <svg class="aviao aviao-um" viewBox="0 0 100 48">
+      <path d="M4 27 42 21 59 4l8 1-8 17 24-3 10-8 5 1-6 12 6 10-5 1-10-7-24-2 8 17-8 1-17-18-38-4z" />
+    </svg>
+    <svg class="aviao aviao-dois" viewBox="0 0 100 48">
+      <path d="M4 27 42 21 59 4l8 1-8 17 24-3 10-8 5 1-6 12 6 10-5 1-10-7-24-2 8 17-8 1-17-18-38-4z" />
+    </svg>
+    <span class="nuvem nuvem-um"></span>
+    <span class="nuvem nuvem-dois"></span>
+  </div>
+
+  <noscript>
+    <p class="aviso-sem-javascript">Ative o JavaScript para carregar o mapa e jogar.</p>
+  </noscript>
+
+  <main class="app">
+    <section id="estado-carregamento" class="estado" role="status" aria-live="polite">
+      <span class="indicador" aria-hidden="true"></span>
+      <p>Carregando os países do mapa-múndi…</p>
+    </section>
+
+    <section id="estado-erro" class="estado erro" role="alert" hidden>
+      <p>Não foi possível carregar o mapa. Confira sua conexão e tente novamente.</p>
+      <button id="tentar-novamente" type="button">Tentar de novo</button>
+    </section>
+
+    <section id="tela-inicial" class="tela-inicial" hidden>
+      <p class="etapa">Uma aventura pelo mundo</p>
+      <h1>Qual é esse país?</h1>
+      <p class="introducao">Viaje pelo mapa e descubra países pelas suas silhuetas.</p>
+      <div id="mapa-mundi" class="mapa-mundi" role="img" aria-label="Mapa-múndi formado pelas silhuetas dos países"></div>
+      <button id="comecar" class="botao-comecar" type="button">Começar</button>
+    </section>
+
+    <section id="tela-jogo" class="tela-jogo" hidden>
+      <header class="barra-jogo">
+        <button id="voltar-inicio" class="botao-secundario botao-icone" type="button" aria-label="Voltar ao início">⌂</button>
+        <div class="vidas" role="group" aria-label="Vidas restantes">
+          <svg class="icone-vida" data-vida="1" viewBox="0 0 100 48" role="img" aria-label="Vida 1 disponível">
+            <path d="M4 27 42 21 59 4l8 1-8 17 24-3 10-8 5 1-6 12 6 10-5 1-10-7-24-2 8 17-8 1-17-18-38-4z"/>
+          </svg>
+          <svg class="icone-vida" data-vida="2" viewBox="0 0 100 48" role="img" aria-label="Vida 2 disponível">
+            <path d="M4 27 42 21 59 4l8 1-8 17 24-3 10-8 5 1-6 12 6 10-5 1-10-7-24-2 8 17-8 1-17-18-38-4z"/>
+          </svg>
+          <svg class="icone-vida" data-vida="3" viewBox="0 0 100 48" role="img" aria-label="Vida 3 disponível">
+            <path d="M4 27 42 21 59 4l8 1-8 17 24-3 10-8 5 1-6 12 6 10-5 1-10-7-24-2 8 17-8 1-17-18-38-4z"/>
+          </svg>
+          <span id="contador-vidas" class="contador-vidas" aria-live="polite" aria-atomic="true">3 vidas</span>
+        </div>
+        <button id="reiniciar-rodada" class="botao-secundario botao-icone" type="button" aria-label="Sortear outro país e restaurar as vidas">🔄</button>
+      </header>
+
+      <h2 class="titulo-rodada">Qual é esse país?</h2>
+      <div id="mapa-pais" class="mapa" role="img" aria-label="Silhueta do país para adivinhar"></div>
+      <p id="mensagem-jogo" class="mensagem-jogo" role="status" aria-live="polite"></p>
+      <form id="form-resposta" class="form-resposta">
+        <label class="sr-only" for="resposta">Digite o nome do país</label>
+        <input id="resposta" name="resposta" type="text" autocomplete="off" placeholder="Digite o nome do país" required>
+        <button type="submit">Responder</button>
+      </form>
+      <div id="controles-ajuda" class="controles-ajuda">
+        <button id="pedir-dica" class="botao-secundario" type="button" aria-label="Mostrar uma dica">💡 Dica</button>
+        <button id="mostrar-alternativas" class="botao-secundario" type="button" aria-label="Trocar o campo por quatro alternativas">🔀 Alternativas</button>
+      </div>
+      <p id="dica-atual" class="dica-atual" role="status" aria-live="polite" hidden></p>
+      <div id="opcoes" class="opcoes hidden" role="group" aria-label="Alternativas de resposta"></div>
+    </section>
+
+    <p id="agradecimento" class="agradecimento" role="status" aria-live="polite" hidden>
+      Obrigada por jogar! Volte sempre!
+    </p>
+
+    <dialog id="modal-fim" class="modal-fim" aria-labelledby="titulo-modal-fim" aria-describedby="mensagem-modal-fim">
+      <h2 id="titulo-modal-fim">Quer jogar de novo?</h2>
+      <p id="mensagem-modal-fim" class="mensagem-modal-fim"></p>
+      <div class="botoes-modal">
+        <button id="jogar-novamente" type="button">Sim</button>
+        <button id="encerrar-jogo" class="botao-secundario" type="button">Não</button>
+      </div>
+    </dialog>
+
+    <div class="paisagem" aria-hidden="true">
+      <svg class="palmeira palmeira-esquerda" viewBox="0 0 150 190">
+        <path d="M77 186 Q88 111 78 39" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+        <path d="M78 42 Q35 5 11 25 Q40 22 70 48 Q27 31 8 55 Q42 43 75 55 Q44 58 26 83 Q55 68 78 63 Q75 92 88 107 Q91 72 83 60 Q111 37 143 45 Q122 22 86 48 Q115 12 105 3 Q83 20 78 42Z" fill="currentColor"/>
+      </svg>
+      <svg class="palmeira palmeira-direita" viewBox="0 0 150 190">
+        <path d="M77 186 Q88 111 78 39" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+        <path d="M78 42 Q35 5 11 25 Q40 22 70 48 Q27 31 8 55 Q42 43 75 55 Q44 58 26 83 Q55 68 78 63 Q75 92 88 107 Q91 72 83 60 Q111 37 143 45 Q122 22 86 48 Q115 12 105 3 Q83 20 78 42Z" fill="currentColor"/>
+      </svg>
+      <svg class="cidade" viewBox="0 0 900 190">
+        <path d="M0 190V95h50V53h39v42h18V30h48v65h28V72h57v23h24V42h38v53h30V19h54v76h27V61h48v34h25V36h43v59h24V67h55v28h27V48h43v47h34V73h43v22h32v95z" fill="currentColor"/>
+        <g fill="#173d49">
+          <path d="M61 65h9v12h-9zm18 0h9v12h-9zM126 42h10v12h-10zm18 0h10v12h-10zm-18 25h10v12h-10zm18 0h10v12h-10zM283 54h9v12h-9zm17 0h9v12h-9zm-17 20h9v12h-9zm107-44h10v13h-10zm19 0h10v13h-10zm-19 27h10v13h-10zm19 0h10v13h-10zM493 76h9v12h-9zm18 0h9v12h-9zM604 48h9v12h-9zm18 0h9v12h-9zM701 79h9v10h-9zm18 0h9v10h-9z"/>
+        </g>
+        <path d="M180 190v-29q0-24 23-24t23 24v29m469 0v-24q0-19 18-19t18 19v24" fill="#f3bd72"/>
+        <path d="M318 171h123l-12-29h-79z" fill="#ef8c63"/>
+        <circle cx="345" cy="174" r="10" fill="#102a35"/><circle cx="414" cy="174" r="10" fill="#102a35"/>
+        <path d="M522 190v-37h9v-14h7v14h9v37m-25-24h25" fill="none" stroke="#f3bd72" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </main>
+</body>
+</html>
